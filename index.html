@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>GitHub Release Stats</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-content">
+        <div class="logo">
+          <h1>GitHub Release Stats</h1>
+          <p class="tagline">Simple release analytics for your repositories</p>
+        </div>
+        <a
+          href="https://github.com/imjyotiraditya/grs"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="github-button"
+        >
+          View on GitHub
+        </a>
+      </div>
+    </header>
+
+    <div class="main-layout">
+      <div class="container">
+        <div class="search-container">
+          <input
+            type="text"
+            id="repo-url"
+            placeholder="Enter GitHub repository URL (e.g. https://github.com/username/repo)"
+            class="search-input"
+          />
+          <button id="get-stats" class="btn-primary">Get Stats</button>
+        </div>
+        <div id="repo-status" class="status"></div>
+      </div>
+
+      <div id="results-container" class="container hidden">
+        <button class="settings-header" onclick="toggleStatsSection()">
+          <div class="settings-header-content">
+            <h2 class="settings-title" id="repo-name">Repository Stats</h2>
+            <span class="settings-header-description" id="repo-description"
+              >Release statistics and information</span
+            >
+          </div>
+          <div class="toggle-icon-container">
+            <svg
+              class="toggle-icon"
+              viewBox="0 0 24 24"
+              width="24"
+              height="24"
+              stroke="currentColor"
+              stroke-width="2"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
+        </button>
+
+        <div class="settings-content">
+          <div id="repo-info" class="repo-info">
+            <div class="repo-stats">
+              <div class="stat-box">
+                <div class="stat-value" id="total-releases">0</div>
+                <div class="stat-label">Total Releases</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-value" id="latest-version">-</div>
+                <div class="stat-label">Latest Version</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-value" id="total-assets">0</div>
+                <div class="stat-label">Total Assets</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-value" id="release-frequency">-</div>
+                <div class="stat-label">Avg. Release Frequency</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="releases-timeline">
+            <h3>Release Timeline</h3>
+            <div id="timeline-chart" class="timeline-chart">
+              <!-- Timeline will be inserted here by JavaScript -->
+            </div>
+          </div>
+
+          <div class="releases-table-container">
+            <h3>All Releases</h3>
+            <div class="table-responsive">
+              <table class="releases-table">
+                <thead>
+                  <tr>
+                    <th>Version</th>
+                    <th>Release Date</th>
+                    <th>Assets</th>
+                    <th>Pre-release</th>
+                    <th>Downloads</th>
+                  </tr>
+                </thead>
+                <tbody id="releases-table-body">
+                  <!-- Releases will be inserted here by JavaScript -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="loading-indicator" class="loading-container hidden">
+        <div class="loading-spinner"></div>
+        <p>Fetching repository data...</p>
+      </div>
+
+      <div id="error-container" class="error-container hidden">
+        <svg
+          class="error-icon"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+        <p id="error-message">Error fetching repository data.</p>
+      </div>
+    </div>
+
+    <footer class="footer">
+      Made with <span class="heart">♥</span> for the GitHub community
+    </footer>
+    <script src="script.js"></script>
+  </body>
+</html>
