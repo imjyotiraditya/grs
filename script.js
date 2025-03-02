@@ -9,6 +9,7 @@ const errorMessage = document.getElementById("error-message");
 
 // Repository info elements
 const repoName = document.getElementById("repo-name");
+const repoFullName = document.getElementById("repo-full-name");
 const repoDescription = document.getElementById("repo-description");
 const totalReleases = document.getElementById("total-releases");
 const latestVersion = document.getElementById("latest-version");
@@ -27,19 +28,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // Functions
-function toggleStatsSection() {
-  const content = document.querySelector(".settings-content");
-  const icon = document.querySelector(".toggle-icon");
-  const header = document.querySelector(".settings-header");
-  const isCollapsed = content.classList.contains("collapsed");
-
-  content.classList.toggle("collapsed");
-  icon.classList.toggle("collapsed");
-
-  header.setAttribute("aria-expanded", isCollapsed ? "true" : "false");
-  content.setAttribute("aria-hidden", isCollapsed ? "false" : "true");
-}
-
 function showStatus(element, message, type) {
   if (!element) return;
   element.textContent = message;
@@ -209,20 +197,20 @@ async function fetchRepositoryStats() {
     showLoading(true);
 
     // Parse GitHub URL
-    const { username, repoName } = parseGitHubUrl(repoUrl);
+    const { username, repoName: repoNameValue } = parseGitHubUrl(repoUrl);
 
     // Fetch repository info
     const repoInfoResponse = await fetch(
-      `https://api.github.com/repos/${username}/${repoName}`
+      `https://api.github.com/repos/${username}/${repoNameValue}`
     );
     if (!repoInfoResponse.ok) {
-      throw new Error(`Repository not found: ${username}/${repoName}`);
+      throw new Error(`Repository not found: ${username}/${repoNameValue}`);
     }
     const repoInfo = await repoInfoResponse.json();
 
     // Fetch repository releases
     const releasesResponse = await fetch(
-      `https://api.github.com/repos/${username}/${repoName}/releases`
+      `https://api.github.com/repos/${username}/${repoNameValue}/releases`
     );
     if (!releasesResponse.ok) {
       throw new Error("Failed to fetch repository releases");
@@ -231,6 +219,7 @@ async function fetchRepositoryStats() {
 
     // Update UI with repository stats
     repoName.textContent = repoInfo.name;
+    repoFullName.textContent = `${username}/${repoNameValue}`;
     repoDescription.textContent =
       repoInfo.description || "No description available";
     totalReleases.textContent = releases.length;

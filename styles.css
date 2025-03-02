@@ -85,97 +85,35 @@ body {
   border-color: #555;
 }
 
-.settings-header {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0;
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: inherit;
-  text-align: left;
+.repo-header {
   padding-bottom: 15px;
-  margin-bottom: -1px;
-  position: relative;
-  transition: opacity 0.2s ease;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #333;
 }
 
-.settings-header:hover {
-  opacity: 0.8;
-}
-
-.settings-header::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: -20px;
-  right: -20px;
-  height: 1px;
-  background: #333;
-}
-
-.settings-header-content {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.settings-title {
-  margin: 0;
-  font-size: 18px;
+.repo-title {
+  margin: 0 0 10px 0;
+  font-size: 20px;
   font-weight: bold;
   color: #e0e0e0;
-  font-family: monospace;
 }
 
-.settings-header-description {
+.repo-full-name {
+  margin: 0 0 10px 0;
+  font-size: 16px;
+  color: #e0e0e0;
+  background: #252525;
+  padding: 5px 10px;
+  border-radius: 4px;
+  display: inline-block;
+  font-family: monospace;
+  border: 1px solid #333;
+}
+
+.repo-description {
+  margin: 0;
   font-size: 14px;
   color: #888;
-  font-family: monospace;
-}
-
-.toggle-icon-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 6px;
-  background: #252525;
-  transition: background-color 0.2s ease;
-}
-
-.settings-header:hover .toggle-icon-container {
-  background: #333;
-}
-
-.toggle-icon {
-  color: #888;
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  width: 20px;
-  height: 20px;
-}
-
-.settings-content {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  max-height: 2000px;
-  opacity: 1;
-  transform: translateY(0);
-  margin-top: 20px;
-}
-
-.settings-content.collapsed {
-  max-height: 0;
-  opacity: 0;
-  transform: translateY(-10px);
-  margin-top: 0;
-  pointer-events: none;
-}
-
-.toggle-icon.collapsed {
-  transform: rotate(-180deg);
 }
 
 .repo-info {
@@ -396,28 +334,6 @@ body {
 
   .logo {
     align-items: center;
-  }
-
-  .settings-header-content {
-    gap: 2px;
-  }
-
-  .settings-title {
-    font-size: 16px;
-  }
-
-  .settings-header-description {
-    font-size: 12px;
-  }
-
-  .toggle-icon-container {
-    width: 28px;
-    height: 28px;
-  }
-
-  .toggle-icon {
-    width: 16px;
-    height: 16px;
   }
 }
 

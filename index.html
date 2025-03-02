@@ -39,70 +39,52 @@
       </div>
 
       <div id="results-container" class="container hidden">
-        <button class="settings-header" onclick="toggleStatsSection()">
-          <div class="settings-header-content">
-            <h2 class="settings-title" id="repo-name">Repository Stats</h2>
-            <span class="settings-header-description" id="repo-description"
-              >Release statistics and information</span
-            >
-          </div>
-          <div class="toggle-icon-container">
-            <svg
-              class="toggle-icon"
-              viewBox="0 0 24 24"
-              width="24"
-              height="24"
-              stroke="currentColor"
-              stroke-width="2"
-              fill="none"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-          </div>
-        </button>
+        <div class="repo-header">
+          <h2 class="repo-title" id="repo-name">Repository Stats</h2>
+          <p class="repo-full-name" id="repo-full-name"></p>
+          <p class="repo-description" id="repo-description">
+            Release statistics and information
+          </p>
+        </div>
 
-        <div class="settings-content">
-          <div id="repo-info" class="repo-info">
-            <div class="repo-stats">
-              <div class="stat-box">
-                <div class="stat-value" id="total-releases">0</div>
-                <div class="stat-label">Total Releases</div>
-              </div>
-              <div class="stat-box">
-                <div class="stat-value" id="latest-version">-</div>
-                <div class="stat-label">Latest Version</div>
-              </div>
-              <div class="stat-box">
-                <div class="stat-value" id="total-assets">0</div>
-                <div class="stat-label">Total Assets</div>
-              </div>
-              <div class="stat-box">
-                <div class="stat-value" id="release-frequency">-</div>
-                <div class="stat-label">Avg. Release Frequency</div>
-              </div>
+        <div id="repo-info" class="repo-info">
+          <div class="repo-stats">
+            <div class="stat-box">
+              <div class="stat-value" id="total-releases">0</div>
+              <div class="stat-label">Total Releases</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-value" id="latest-version">-</div>
+              <div class="stat-label">Latest Version</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-value" id="total-assets">0</div>
+              <div class="stat-label">Total Assets</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-value" id="release-frequency">-</div>
+              <div class="stat-label">Avg. Release Frequency</div>
             </div>
           </div>
+        </div>
 
-          <div class="releases-table-container">
-            <h3>All Releases</h3>
-            <div class="table-responsive">
-              <table class="releases-table">
-                <thead>
-                  <tr>
-                    <th>Version</th>
-                    <th>Release Date</th>
-                    <th>Assets</th>
-                    <th>Pre-release</th>
-                    <th>Downloads</th>
-                  </tr>
-                </thead>
-                <tbody id="releases-table-body">
-                  <!-- Releases will be inserted here by JavaScript -->
-                </tbody>
-              </table>
-            </div>
+        <div class="releases-table-container">
+          <h3>All Releases</h3>
+          <div class="table-responsive">
+            <table class="releases-table">
+              <thead>
+                <tr>
+                  <th>Version</th>
+                  <th>Release Date</th>
+                  <th>Assets</th>
+                  <th>Pre-release</th>
+                  <th>Downloads</th>
+                </tr>
+              </thead>
+              <tbody id="releases-table-body">
+                <!-- Releases will be inserted here by JavaScript -->
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
