@@ -208,69 +208,6 @@ body {
   color: #888;
 }
 
-.releases-timeline {
-  margin-bottom: 30px;
-}
-
-.releases-timeline h3 {
-  margin-top: 0;
-  color: #e0e0e0;
-  font-size: 16px;
-  margin-bottom: 15px;
-}
-
-.timeline-chart {
-  background: #252525;
-  padding: 20px;
-  border-radius: 4px;
-  border: 1px solid #333;
-  min-height: 200px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-}
-
-.timeline-chart .timeline {
-  width: 100%;
-  height: 4px;
-  background: #333;
-  position: relative;
-  margin: 50px 0;
-}
-
-.timeline-chart .release-point {
-  position: absolute;
-  width: 12px;
-  height: 12px;
-  background: #0d6efd;
-  border-radius: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  cursor: pointer;
-}
-
-.timeline-chart .release-point::after {
-  content: "";
-  position: absolute;
-  width: 1px;
-  height: 8px;
-  background: #888;
-  bottom: -12px;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.timeline-chart .release-label {
-  position: absolute;
-  bottom: -35px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 12px;
-  color: #888;
-  white-space: nowrap;
-}
-
 .releases-table-container h3 {
   margin-top: 0;
   color: #e0e0e0;
@@ -442,6 +379,10 @@ body {
     grid-template-columns: repeat(2, 1fr);
   }
 
+  .activity-grid {
+    grid-template-columns: 1fr;
+  }
+
   .search-container {
     flex-direction: column;
   }
@@ -476,11 +417,6 @@ body {
   .toggle-icon {
     width: 16px;
     height: 16px;
-  }
-
-  /* Hide timeline on mobile */
-  .releases-timeline {
-    display: none;
   }
 }
 

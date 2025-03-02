@@ -14,7 +14,6 @@ const totalReleases = document.getElementById("total-releases");
 const latestVersion = document.getElementById("latest-version");
 const totalAssets = document.getElementById("total-assets");
 const releaseFrequency = document.getElementById("release-frequency");
-const timelineChart = document.getElementById("timeline-chart");
 const releasesTableBody = document.getElementById("releases-table-body");
 
 // Event Listeners
@@ -90,57 +89,22 @@ function calculateReleaseFrequency(releases) {
   if (averageDays < 1) {
     return "Multiple per day";
   } else if (averageDays < 7) {
-    return Math.round(averageDays) + " days";
+    const days = Math.round(averageDays);
+    return days + (days === 1 ? " day" : " days");
   } else if (averageDays < 30) {
-    return Math.round(averageDays / 7) + " weeks";
+    const weeks = Math.round(averageDays / 7);
+    return weeks + (weeks === 1 ? " week" : " weeks");
   } else if (averageDays < 365) {
-    return Math.round(averageDays / 30) + " months";
+    const months = Math.round(averageDays / 30);
+    return months + (months === 1 ? " month" : " months");
   } else {
-    return Math.round(averageDays / 365) + " years";
+    const years = Math.round(averageDays / 365);
+    return years + (years === 1 ? " year" : " years");
   }
 }
 
 function countTotalAssets(releases) {
   return releases.reduce((total, release) => total + release.assets.length, 0);
-}
-
-function renderReleaseTimeline(releases) {
-  if (releases.length === 0) {
-    timelineChart.innerHTML = '<p class="empty-state">No releases found</p>';
-    return;
-  }
-
-  // Sort releases by date
-  const sortedReleases = [...releases].sort(
-    (a, b) => new Date(a.published_at) - new Date(b.published_at)
-  );
-
-  // Create timeline element
-  const timeline = document.createElement("div");
-  timeline.className = "timeline";
-
-  // Add release points to timeline
-  for (let i = 0; i < sortedReleases.length; i++) {
-    const release = sortedReleases[i];
-    const position = (i / (sortedReleases.length - 1 || 1)) * 100;
-
-    const releasePoint = document.createElement("div");
-    releasePoint.className = "release-point";
-    releasePoint.style.left = `${position}%`;
-    releasePoint.title = `${release.tag_name} - ${formatDate(
-      release.published_at
-    )}`;
-
-    const releaseLabel = document.createElement("div");
-    releaseLabel.className = "release-label";
-    releaseLabel.textContent = release.tag_name;
-
-    releasePoint.appendChild(releaseLabel);
-    timeline.appendChild(releasePoint);
-  }
-
-  timelineChart.innerHTML = "";
-  timelineChart.appendChild(timeline);
 }
 
 function renderReleasesTable(releases) {
@@ -275,8 +239,7 @@ async function fetchRepositoryStats() {
     totalAssets.textContent = countTotalAssets(releases);
     releaseFrequency.textContent = calculateReleaseFrequency(releases);
 
-    // Render timeline and table
-    renderReleaseTimeline(releases);
+    // Render table
     renderReleasesTable(releases);
 
     // Show results
