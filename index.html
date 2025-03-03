@@ -3,8 +3,31 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>GitHub Release Stats</title>
-    <link rel="stylesheet" href="styles.css" />
+    <meta
+      name="description"
+      content="Analyze GitHub repository release statistics and trends"
+    />
+    <meta
+      name="keywords"
+      content="GitHub, releases, statistics, repository, analysis"
+    />
+    <title>GitHub Release Stats - Simple Release Analytics</title>
+
+    <!-- <link rel="icon" href="./img/favicon.ico" /> -->
+    <link rel="stylesheet" href="./css/styles.css" />
+
+    <!-- Open Graph / Social Media Metadata -->
+    <meta property="og:title" content="GitHub Release Stats" />
+    <meta
+      property="og:description"
+      content="Simple release analytics for GitHub repositories"
+    />
+    <!-- <meta
+      property="og:image"
+      content="https://imjyotiraditya.github.io/grs/img/og-image.png"
+    /> -->
+    <meta property="og:url" content="https://imjyotiraditya.github.io/grs" />
+    <meta name="twitter:card" content="summary_large_image" />
   </head>
   <body>
     <header class="site-header">
@@ -32,6 +55,7 @@
             id="repo-url"
             placeholder="Enter GitHub repository URL (e.g. https://github.com/username/repo)"
             class="search-input"
+            aria-label="GitHub repository URL"
           />
           <button id="get-stats" class="btn-primary">Get Stats</button>
         </div>
@@ -117,6 +141,8 @@
     <footer class="footer">
       Made with <span class="heart">♥</span> for the GitHub community
     </footer>
-    <script src="script.js"></script>
+
+    <!-- JavaScript modules -->
+    <script type="module" src="./js/script.js"></script>
   </body>
 </html>

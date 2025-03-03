@@ -66,6 +66,44 @@ body {
   color: #e0e0e0;
   font-family: monospace;
   font-size: 14px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #666;
+  box-shadow: 0 0 0 2px rgba(128, 128, 128, 0.3);
+}
+
+/* Selection color styling */
+::selection {
+  background-color: #444;
+  color: #e0e0e0;
+}
+
+::-moz-selection {
+  background-color: #444;
+  color: #e0e0e0;
+}
+
+input::selection {
+  background-color: #444;
+  color: #e0e0e0;
+}
+
+input::-moz-selection {
+  background-color: #444;
+  color: #e0e0e0;
+}
+
+/* Autofill styling for inputs */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #e0e0e0;
+  -webkit-box-shadow: 0 0 0px 1000px #252525 inset;
+  transition: background-color 5000s ease-in-out 0s;
+  border-color: #666;
 }
 
 .btn-primary {
@@ -77,12 +115,18 @@ body {
   cursor: pointer;
   font-family: monospace;
   font-size: 14px;
-  transition: background 0.2s ease, border-color 0.2s ease;
+  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .btn-primary:hover {
   background: #444;
   border-color: #555;
+}
+
+.btn-primary:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(128, 128, 128, 0.3);
+  border-color: #666;
 }
 
 .repo-header {
@@ -214,7 +258,7 @@ body {
   width: 40px;
   height: 40px;
   border: 3px solid #333;
-  border-top: 3px solid #0d6efd;
+  border-top: 3px solid #666;
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin-bottom: 15px;
@@ -270,7 +314,12 @@ body {
 .github-button:hover {
   background: #444;
   border-color: #555;
-  color: #e0e0e0;
+}
+
+.github-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(128, 128, 128, 0.3);
+  border-color: #666;
 }
 
 .footer {
