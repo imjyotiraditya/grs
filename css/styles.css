@@ -189,29 +189,48 @@ input:-webkit-autofill:focus {
 .stat-label {
   font-size: 14px;
   color: #888;
+  letter-spacing: 0.5px;
+}
+
+/* Improved Table Styling */
+.releases-table-container {
+  background: #1e1e1e;
+  border-radius: 4px;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid #333;
 }
 
 .releases-table-container h3 {
-  margin-top: 0;
+  margin: 0;
+  padding: 15px 20px;
+  background: #252525;
   color: #e0e0e0;
   font-size: 16px;
-  margin-bottom: 15px;
+  font-weight: normal;
+  border-bottom: 1px solid #333;
+  letter-spacing: 0.5px;
 }
 
 .table-responsive {
   overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #444 #1e1e1e;
 }
 
 .releases-table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
   font-size: 14px;
+  font-family: monospace;
 }
 
 .releases-table th,
 .releases-table td {
   padding: 12px 15px;
   text-align: left;
+  border: none;
   border-bottom: 1px solid #333;
 }
 
@@ -219,10 +238,50 @@ input:-webkit-autofill:focus {
   background-color: #252525;
   color: #888;
   font-weight: normal;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 1px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.releases-table th:first-child {
+  padding-left: 20px;
+}
+
+.releases-table th:last-child {
+  padding-right: 20px;
+}
+
+.releases-table td:first-child {
+  padding-left: 20px;
+  font-weight: bold;
+  color: #e0e0e0;
+}
+
+.releases-table td:last-child {
+  padding-right: 20px;
+}
+
+.releases-table tbody tr {
+  transition: background-color 0.2s ease;
 }
 
 .releases-table tbody tr:hover {
   background-color: #252525;
+}
+
+.releases-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Empty state styling */
+.releases-table tbody tr td[colspan="5"] {
+  padding: 30px;
+  text-align: center;
+  color: #666;
+  font-style: italic;
 }
 
 .status {
@@ -230,15 +289,18 @@ input:-webkit-autofill:focus {
   padding: 10px;
   border-radius: 4px;
   display: none;
+  font-family: monospace;
 }
 
 .status.success {
   background: #1b5e20;
+  border: 1px solid #2e7d32;
   display: block;
 }
 
 .status.error {
   background: #c62828;
+  border: 1px solid #d32f2f;
   display: block;
 }
 
@@ -276,6 +338,7 @@ input:-webkit-autofill:focus {
 .loading-container p {
   margin: 0;
   color: #888;
+  font-family: monospace;
 }
 
 .error-container {
@@ -288,6 +351,7 @@ input:-webkit-autofill:focus {
   border-radius: 4px;
   margin-bottom: 20px;
   color: #e88;
+  font-family: monospace;
 }
 
 .error-icon {
@@ -322,6 +386,31 @@ input:-webkit-autofill:focus {
   border-color: #666;
 }
 
+/* Pre-release tags styling */
+.pre-release-tag,
+.stable-tag {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 3px;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-family: monospace;
+}
+
+.pre-release-tag {
+  background: #2d2d13;
+  color: #cccc00;
+  border: 1px solid #4d4d23;
+}
+
+.stable-tag {
+  background: #132d1e;
+  color: #00cc66;
+  border: 1px solid #234d34;
+}
+
 .footer {
   text-align: center;
   padding: 20px;
@@ -340,24 +429,6 @@ input:-webkit-autofill:focus {
   display: none !important;
 }
 
-.pre-release-tag {
-  display: inline-block;
-  padding: 2px 6px;
-  background: #2d2d13;
-  color: #cccc00;
-  border-radius: 3px;
-  font-size: 12px;
-}
-
-.stable-tag {
-  display: inline-block;
-  padding: 2px 6px;
-  background: #132d1e;
-  color: #00cc66;
-  border-radius: 3px;
-  font-size: 12px;
-}
-
 @media (max-width: 768px) {
   body {
     padding: 10px;
@@ -365,10 +436,6 @@ input:-webkit-autofill:focus {
 
   .repo-stats {
     grid-template-columns: repeat(2, 1fr);
-  }
-
-  .activity-grid {
-    grid-template-columns: 1fr;
   }
 
   .search-container {
@@ -384,6 +451,21 @@ input:-webkit-autofill:focus {
   .logo {
     align-items: center;
   }
+
+  .releases-table th,
+  .releases-table td {
+    padding: 10px;
+  }
+
+  .releases-table th:first-child,
+  .releases-table td:first-child {
+    padding-left: 15px;
+  }
+
+  .releases-table th:last-child,
+  .releases-table td:last-child {
+    padding-right: 15px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -392,6 +474,12 @@ input:-webkit-autofill:focus {
   }
 
   .table-responsive {
-    margin: 0 -15px;
+    margin: 0;
+  }
+
+  .pre-release-tag,
+  .stable-tag {
+    padding: 2px 6px;
+    font-size: 10px;
   }
 }
