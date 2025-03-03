@@ -51,6 +51,15 @@ async function fetchRepositoryStats() {
 // Initialize the application when the DOM is loaded
 document.addEventListener("DOMContentLoaded", () => {
   UI.init(fetchRepositoryStats);
+
+  // Check for pre-filled repository URL in query parameters
+  const urlParams = new URLSearchParams(window.location.search);
+  const prefilledRepo = urlParams.get("r");
+
+  if (prefilledRepo) {
+    UI.elements.repoUrlInput.value = prefilledRepo;
+    fetchRepositoryStats();
+  }
 });
 
 // Export the main function for potential testing

@@ -6,11 +6,24 @@
 const API = {
   /**
    * Parse a GitHub URL to extract username and repository name
-   * @param {string} url - GitHub repository URL
+   * @param {string} url - GitHub repository URL or shorthand
    * @returns {Object} Object containing username and repoName
    */
   parseGitHubUrl(url) {
     try {
+      // Trim and remove any leading/trailing whitespace
+      url = url.trim();
+
+      // Check if it's already in username/repo format
+      const simplePattern = /^([^\/]+)\/([^\/]+)$/;
+      const simpleMatch = url.match(simplePattern);
+      if (simpleMatch) {
+        return {
+          username: simpleMatch[1],
+          repoName: simpleMatch[2],
+        };
+      }
+
       // Match GitHub URL patterns to extract username and repo name
       const urlPattern = /github\.com\/([^\/]+)\/([^\/]+)/i;
       const match = url.match(urlPattern);
