@@ -86,6 +86,136 @@ const UI = {
   },
 
   /**
+   * Create asset details row for a release
+   * @param {Object} release - Release object containing assets
+   * @param {number} colspan - Number of columns to span
+   * @returns {HTMLElement} TR element with asset details
+   */
+  createAssetDetailsRow(release, colspan) {
+    const detailsRow = document.createElement("tr");
+    detailsRow.className = "asset-details-row";
+
+    const detailsCell = document.createElement("td");
+    detailsCell.colSpan = colspan;
+    detailsCell.className = "asset-details-cell";
+
+    // Create asset details container
+    const detailsContainer = document.createElement("div");
+    detailsContainer.className = "asset-details-container";
+
+    if (release.assets.length === 0) {
+      // No assets message
+      const noAssetsMsg = document.createElement("p");
+      noAssetsMsg.className = "no-assets-message";
+      noAssetsMsg.textContent = "No assets available for this release";
+      detailsContainer.appendChild(noAssetsMsg);
+    } else {
+      // Create asset details table
+      const assetsTable = document.createElement("table");
+      assetsTable.className = "assets-table";
+
+      // Table header
+      const tableHeader = document.createElement("thead");
+      const headerRow = document.createElement("tr");
+
+      ["#", "Asset Name", "Size", "Downloads", "Created At"].forEach(
+        (headerText) => {
+          const th = document.createElement("th");
+          th.textContent = headerText;
+          headerRow.appendChild(th);
+        }
+      );
+
+      tableHeader.appendChild(headerRow);
+      assetsTable.appendChild(tableHeader);
+
+      // Table body
+      const tableBody = document.createElement("tbody");
+
+      release.assets.forEach((asset, index) => {
+        const assetRow = document.createElement("tr");
+
+        // Asset number column
+        const numberCell = document.createElement("td");
+        numberCell.textContent = (index + 1).toString();
+        numberCell.className = "asset-number";
+        assetRow.appendChild(numberCell);
+
+        // Asset name with download link
+        const nameCell = document.createElement("td");
+        const nameLink = document.createElement("a");
+        nameLink.href = asset.browser_download_url;
+        nameLink.textContent = asset.name;
+        nameLink.target = "_blank";
+        nameLink.rel = "noopener noreferrer";
+        nameCell.appendChild(nameLink);
+        assetRow.appendChild(nameCell);
+
+        // Asset size
+        const sizeCell = document.createElement("td");
+        sizeCell.textContent = Utils.formatFileSize(asset.size);
+        assetRow.appendChild(sizeCell);
+
+        // Download count
+        const downloadCell = document.createElement("td");
+        downloadCell.textContent = asset.download_count.toLocaleString();
+        assetRow.appendChild(downloadCell);
+
+        // Created at
+        const createdCell = document.createElement("td");
+        createdCell.textContent = Utils.formatDate(asset.created_at);
+        createdCell.className = "created-at";
+        assetRow.appendChild(createdCell);
+
+        tableBody.appendChild(assetRow);
+      });
+
+      assetsTable.appendChild(tableBody);
+      detailsContainer.appendChild(assetsTable);
+    }
+
+    detailsCell.appendChild(detailsContainer);
+    detailsRow.appendChild(detailsCell);
+
+    return detailsRow;
+  },
+
+  /**
+   * Handle click on a release row
+   * @param {Event} event - Click event
+   * @param {Object} release - Release object
+   */
+  handleReleaseRowClick(event, release) {
+    const row = event.currentTarget;
+    const existingDetailsRow = row.nextElementSibling;
+    const isDetailsRow =
+      existingDetailsRow &&
+      existingDetailsRow.classList.contains("asset-details-row");
+
+    // Remove any existing open asset details
+    const allDetailRows = document.querySelectorAll(".asset-details-row");
+    allDetailRows.forEach((detailRow) => detailRow.remove());
+
+    // Remove active class from all rows
+    const allRows = document.querySelectorAll(
+      ".releases-table tbody tr:not(.asset-details-row)"
+    );
+    allRows.forEach((r) => r.classList.remove("active-release-row"));
+
+    // If details were already open for this row, just close them (already removed above)
+    // Otherwise, open details for this row
+    if (
+      !isDetailsRow ||
+      existingDetailsRow.dataset.releaseId !== release.id.toString()
+    ) {
+      row.classList.add("active-release-row");
+      const detailsRow = this.createAssetDetailsRow(release, 5); // 5 columns in the table
+      detailsRow.dataset.releaseId = release.id;
+      row.parentNode.insertBefore(detailsRow, row.nextSibling);
+    }
+  },
+
+  /**
    * Render the releases table
    * @param {Array} releases - Array of release objects
    */
@@ -111,6 +241,13 @@ const UI = {
 
     sortedReleases.forEach((release) => {
       const row = document.createElement("tr");
+      row.className = "release-row";
+      row.dataset.releaseId = release.id;
+
+      // Make the row clickable
+      row.addEventListener("click", (event) =>
+        this.handleReleaseRowClick(event, release)
+      );
 
       // Version column
       const versionCell = document.createElement("td");
