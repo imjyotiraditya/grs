@@ -26,6 +26,8 @@ const UI = {
     latestVersion: document.getElementById("latest-version"),
     totalAssets: document.getElementById("total-assets"),
     releaseFrequency: document.getElementById("release-frequency"),
+    totalDownloads: document.getElementById("total-downloads"),
+    avgDownloads: document.getElementById("avg-downloads"),
     releasesTableBody: document.getElementById("releases-table-body"),
   },
 
@@ -169,6 +171,10 @@ const UI = {
     this.elements.totalAssets.textContent = Utils.countTotalAssets(releases);
     this.elements.releaseFrequency.textContent =
       Utils.calculateReleaseFrequency(releases);
+    this.elements.totalDownloads.textContent =
+      Utils.calculateTotalDownloads(releases).toLocaleString();
+    this.elements.avgDownloads.textContent =
+      Utils.calculateAverageDownloads(releases);
 
     // Render table
     this.renderReleasesTable(releases);

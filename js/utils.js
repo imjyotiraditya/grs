@@ -65,6 +65,40 @@ const Utils = {
       0
     );
   },
+
+  /**
+   * Calculate the total number of downloads across all releases
+   * @param {Array} releases - Array of release objects
+   * @returns {number} Total number of downloads
+   */
+  calculateTotalDownloads(releases) {
+    return releases.reduce((total, release) => {
+      const releaseDownloads = release.assets.reduce(
+        (sum, asset) => sum + asset.download_count,
+        0
+      );
+      return total + releaseDownloads;
+    }, 0);
+  },
+
+  /**
+   * Calculate the average downloads per release
+   * @param {Array} releases - Array of release objects
+   * @returns {string} Average downloads per release, formatted
+   */
+  calculateAverageDownloads(releases) {
+    if (releases.length === 0) return "0";
+
+    const totalDownloads = this.calculateTotalDownloads(releases);
+    const averageDownloads = totalDownloads / releases.length;
+
+    // Format to handle decimals nicely
+    if (averageDownloads < 1 && averageDownloads > 0) {
+      return averageDownloads.toFixed(2);
+    }
+
+    return Math.round(averageDownloads).toLocaleString();
+  },
 };
 
 export default Utils;
