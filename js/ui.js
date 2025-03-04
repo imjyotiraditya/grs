@@ -20,7 +20,6 @@ const UI = {
 
     // Repository info elements
     repoName: document.getElementById("repo-name"),
-    repoFullName: document.getElementById("repo-full-name"),
     repoDescription: document.getElementById("repo-description"),
     totalReleases: document.getElementById("total-releases"),
     latestVersion: document.getElementById("latest-version"),
@@ -29,6 +28,9 @@ const UI = {
     totalDownloads: document.getElementById("total-downloads"),
     avgDownloads: document.getElementById("avg-downloads"),
     releasesTableBody: document.getElementById("releases-table-body"),
+
+    // Share button element
+    shareButton: document.getElementById("share-button"),
   },
 
   /**
@@ -42,6 +44,12 @@ const UI = {
         fetchStatsCallback();
       }
     });
+
+    // Add event listener for share button
+    this.elements.shareButton.addEventListener(
+      "click",
+      this.handleShareButtonClick.bind(this)
+    );
   },
 
   /**
@@ -83,6 +91,61 @@ const UI = {
    */
   showResults(show) {
     this.elements.resultsContainer.classList.toggle("hidden", !show);
+  },
+
+  /**
+   * Handle share button click
+   */
+  handleShareButtonClick() {
+    const repoUrl = this.elements.repoUrlInput.value.trim();
+    if (!repoUrl) return;
+
+    // Create the shareable URL with the 'r' parameter
+    const currentUrl = new URL(window.location.href);
+    currentUrl.searchParams.set("r", repoUrl);
+    const shareableUrl = currentUrl.toString();
+
+    // Copy to clipboard
+    navigator.clipboard
+      .writeText(shareableUrl)
+      .then(() => {
+        this.showToast("Link copied to clipboard!");
+      })
+      .catch((err) => {
+        console.error("Could not copy text: ", err);
+        this.showToast("Failed to copy link.");
+      });
+  },
+
+  /**
+   * Show a toast notification
+   * @param {string} message - Message to display in the toast
+   */
+  showToast(message) {
+    // Remove any existing toast
+    const existingToast = document.querySelector(".toast");
+    if (existingToast) {
+      existingToast.remove();
+    }
+
+    // Create new toast
+    const toast = document.createElement("div");
+    toast.className = "toast";
+    toast.textContent = message;
+    document.body.appendChild(toast);
+
+    // Show the toast
+    setTimeout(() => {
+      toast.classList.add("show");
+    }, 10);
+
+    // Hide the toast after 3 seconds
+    setTimeout(() => {
+      toast.classList.remove("show");
+      setTimeout(() => {
+        toast.remove();
+      }, 300);
+    }, 3000);
   },
 
   /**
@@ -299,7 +362,6 @@ const UI = {
    */
   updateRepositoryInfo(repoInfo, releases, username, repoName) {
     this.elements.repoName.textContent = repoInfo.name;
-    this.elements.repoFullName.textContent = `${username}/${repoName}`;
     this.elements.repoDescription.textContent =
       repoInfo.description || "No description available";
     this.elements.totalReleases.textContent = releases.length;
