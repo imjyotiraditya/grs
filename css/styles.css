@@ -32,6 +32,15 @@ body {
   color: #e0e0e0;
 }
 
+.home-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.home-link:hover {
+  text-decoration: none;
+}
+
 .tagline {
   margin: 0;
   color: #888;
