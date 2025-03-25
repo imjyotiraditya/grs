@@ -15,6 +15,10 @@
 
     <!-- <link rel="icon" href="./img/favicon.ico" /> -->
     <link rel="stylesheet" href="./css/styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
 
     <!-- Open Graph / Social Media Metadata -->
     <meta property="og:title" content="GitHub Release Stats" />
@@ -28,6 +32,10 @@
     /> -->
     <meta property="og:url" content="https://imjyotiraditya.github.io/grs" />
     <meta name="twitter:card" content="summary_large_image" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
   </head>
   <body>
     <header class="site-header">
@@ -44,7 +52,7 @@
           rel="noopener noreferrer"
           class="github-button"
         >
-          View on GitHub
+          <i class="fab fa-github"></i> View on GitHub
         </a>
       </div>
     </header>
@@ -59,7 +67,9 @@
             class="search-input"
             aria-label="GitHub repository URL"
           />
-          <button id="get-stats" class="btn-primary">Get Stats</button>
+          <button id="get-stats" class="btn-primary">
+            <i class="fas fa-chart-bar"></i> Get Stats
+          </button>
         </div>
         <div id="repo-status" class="status"></div>
       </div>
@@ -73,20 +83,7 @@
             </p>
           </div>
           <button id="share-button" class="btn-primary share-button">
-            <svg
-              class="share-icon"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
-              <polyline points="16 6 12 2 8 6"></polyline>
-              <line x1="12" y1="2" x2="12" y2="15"></line>
-            </svg>
-            Share Results
+            <i class="fas fa-arrow-up-from-bracket"></i> Share Results
           </button>
         </div>
 

@@ -1,5 +1,5 @@
 body {
-  font-family: monospace;
+  font-family: "Fira Code", monospace;
   background-color: #121212;
   color: #e0e0e0;
   margin: 0;
@@ -73,7 +73,7 @@ body {
   border: 1px solid #444;
   border-radius: 4px;
   color: #e0e0e0;
-  font-family: monospace;
+  font-family: "Fira Code", monospace;
   font-size: 14px;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
@@ -122,7 +122,7 @@ input:-webkit-autofill:focus {
   border: 1px solid #444;
   border-radius: 4px;
   cursor: pointer;
-  font-family: monospace;
+  font-family: "Fira Code", monospace;
   font-size: 14px;
   transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
@@ -166,7 +166,7 @@ input:-webkit-autofill:focus {
   padding: 5px 10px;
   border-radius: 4px;
   display: inline-block;
-  font-family: monospace;
+  font-family: "Fira Code", monospace;
   border: 1px solid #333;
 }
 
@@ -239,7 +239,7 @@ input:-webkit-autofill:focus {
   border-collapse: separate;
   border-spacing: 0;
   font-size: 14px;
-  font-family: monospace;
+  font-family: "Fira Code", monospace;
 }
 
 .releases-table th,
@@ -304,7 +304,7 @@ input:-webkit-autofill:focus {
   padding: 10px;
   border-radius: 4px;
   display: none;
-  font-family: monospace;
+  font-family: "Fira Code", monospace;
 }
 
 .status.success {
@@ -353,7 +353,7 @@ input:-webkit-autofill:focus {
 .loading-container p {
   margin: 0;
   color: #888;
-  font-family: monospace;
+  font-family: "Fira Code", monospace;
 }
 
 .error-container {
@@ -366,7 +366,7 @@ input:-webkit-autofill:focus {
   border-radius: 4px;
   margin-bottom: 20px;
   color: #e88;
-  font-family: monospace;
+  font-family: "Fira Code", monospace;
 }
 
 .error-icon {
@@ -387,7 +387,7 @@ input:-webkit-autofill:focus {
   border-radius: 4px;
   border: 1px solid #444;
   transition: background 0.2s ease, border-color 0.2s ease;
-  font-family: monospace;
+  font-family: "Fira Code", monospace;
 }
 
 .github-button:hover {
@@ -411,7 +411,7 @@ input:-webkit-autofill:focus {
   letter-spacing: 0.5px;
   text-transform: uppercase;
   font-weight: bold;
-  font-family: monospace;
+  font-family: "Fira Code", monospace;
 }
 
 .pre-release-tag {
@@ -429,7 +429,7 @@ input:-webkit-autofill:focus {
 .footer {
   text-align: center;
   padding: 20px;
-  font-family: monospace;
+  font-family: "Fira Code", monospace;
   color: #888;
   margin-top: 40px;
 }
@@ -487,7 +487,7 @@ input:-webkit-autofill:focus {
   border-collapse: separate;
   border-spacing: 0;
   font-size: 14px;
-  font-family: monospace;
+  font-family: "Fira Code", monospace;
 }
 
 .assets-table th,
@@ -551,7 +551,7 @@ input:-webkit-autofill:focus {
 
 .assets-table td {
   font-weight: normal;
-  font-family: monospace;
+  font-family: "Fira Code", monospace;
 }
 
 .assets-table td.created-at {
@@ -611,7 +611,7 @@ input:-webkit-autofill:focus {
   border-radius: 4px;
   border: 1px solid #444;
   transition: background 0.2s ease, border-color 0.2s ease;
-  font-family: monospace;
+  font-family: "Fira Code", monospace;
   cursor: pointer;
   margin-left: 15px;
   white-space: nowrap;
@@ -643,7 +643,7 @@ input:-webkit-autofill:focus {
   padding: 12px 24px;
   border-radius: 4px;
   border: 1px solid #444;
-  font-family: monospace;
+  font-family: "Fira Code", monospace;
   z-index: 1000;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
   opacity: 0;
