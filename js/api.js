@@ -55,7 +55,7 @@ const API = {
    */
   async getRepositoryInfo(username, repoName) {
     const response = await fetch(
-      `https://api.github.com/repos/${username}/${repoName}`
+      `https://api.github.com/repos/${username}/${repoName}`,
     );
 
     if (!response.ok) {
@@ -73,7 +73,7 @@ const API = {
    */
   async getRepositoryReleases(username, repoName) {
     const response = await fetch(
-      `https://api.github.com/repos/${username}/${repoName}/releases`
+      `https://api.github.com/repos/${username}/${repoName}/releases`,
     );
 
     if (!response.ok) {

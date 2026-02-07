@@ -15,7 +15,7 @@ async function fetchRepositoryStats() {
     UI.showStatus(
       UI.elements.repoStatus,
       "Please enter a GitHub repository URL",
-      "error"
+      "error",
     );
     return;
   }

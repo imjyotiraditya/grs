@@ -7,166 +7,221 @@
       name="description"
       content="Analyze GitHub repository release statistics and trends"
     />
-    <meta
-      name="keywords"
-      content="GitHub, releases, statistics, repository, analysis"
-    />
-    <title>GitHub Release Stats - Simple Release Analytics</title>
-
-    <!-- <link rel="icon" href="./img/favicon.ico" /> -->
+    <title>GRS // GitHub Release Stats</title>
+    
     <link rel="stylesheet" href="./css/styles.css" />
     <link
-      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap"
       rel="stylesheet"
     />
-
-    <!-- Open Graph / Social Media Metadata -->
-    <meta property="og:title" content="GitHub Release Stats" />
-    <meta
-      property="og:description"
-      content="Simple release analytics for GitHub repositories"
-    />
-    <!-- <meta
-      property="og:image"
-      content="https://imjyotiraditya.github.io/grs/img/og-image.png"
-    /> -->
-    <meta property="og:url" content="https://imjyotiraditya.github.io/grs" />
-    <meta name="twitter:card" content="summary_large_image" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
     />
   </head>
   <body>
-    <header class="site-header">
-      <div class="header-content">
-        <div class="logo">
-          <a href="./" class="home-link">
-            <h1>GitHub Release Stats</h1>
-          </a>
-          <p class="tagline">Simple release analytics for your repositories</p>
+    <!-- Background geometric shapes -->
+    <div class="bg-shapes">
+      <div class="shape shape-1"></div>
+      <div class="shape shape-2"></div>
+      <div class="shape shape-3"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+      <div class="header-inner">
+        <div class="logo-area">
+          <h1 class="logo">
+            <span class="logo-main">GRS</span>
+            <span class="logo-sub">GitHub Release Stats</span>
+          </h1>
         </div>
         <a
           href="https://github.com/imjyotiraditya/grs"
           target="_blank"
           rel="noopener noreferrer"
-          class="github-button"
+          class="header-link"
         >
-          <i class="fab fa-github"></i> View on GitHub
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+            />
+          </svg>
+          VIEW SOURCE
         </a>
       </div>
     </header>
 
-    <div class="main-layout">
-      <div class="container">
-        <div class="search-container">
-          <input
-            type="text"
-            id="repo-url"
-            placeholder="Enter GitHub repo (e.g. username/repo or https://github.com/username/repo)"
-            class="search-input"
-            aria-label="GitHub repository URL"
-          />
-          <button id="get-stats" class="btn-primary">
-            <i class="fas fa-chart-bar"></i> Get Stats
+    <!-- Main content -->
+    <main class="main">
+      <!-- Search section -->
+      <section class="search-section">
+        <div class="search-header">
+          <h2 class="section-title">
+            <span class="title-bracket">[</span>
+            ANALYZE REPOSITORY
+            <span class="title-bracket">]</span>
+          </h2>
+          <p class="section-desc">
+            Enter any GitHub repository to get detailed release statistics
+          </p>
+        </div>
+
+        <div class="search-box">
+          <div class="input-wrapper">
+            <label for="repo-input" class="input-label">REPOSITORY URL</label>
+            <input
+              type="text"
+              id="repo-input"
+              class="repo-input"
+              placeholder="username/repo or github.com/username/repo"
+              autocomplete="off"
+              spellcheck="false"
+            />
+          </div>
+          
+          <button id="analyze-btn" class="btn-analyze">
+            <span class="btn-text">ANALYZE</span>
+            <span class="btn-icon">→</span>
           </button>
         </div>
-        <div id="repo-status" class="status"></div>
+
+        <div id="status-msg" class="status-msg"></div>
+      </section>
+
+      <!-- Loading state -->
+      <div id="loading" class="loading hidden">
+        <div class="loading-spinner"></div>
+        <p class="loading-text">FETCHING DATA...</p>
       </div>
 
-      <div id="results-container" class="container hidden">
-        <div class="repo-header">
-          <div class="repo-info-wrapper">
-            <h2 class="repo-title" id="repo-name">Repository Stats</h2>
-            <p class="repo-description" id="repo-description">
-              Release statistics and information
-            </p>
-          </div>
-          <button id="share-button" class="btn-primary share-button">
-            <i class="fas fa-arrow-up-from-bracket"></i> Share Results
-          </button>
+      <!-- Error state -->
+      <div id="error" class="error hidden">
+        <div class="error-icon">
+          <i class="fas fa-exclamation-triangle"></i>
         </div>
+        <p class="error-text" id="error-text">Something went wrong</p>
+        <button id="retry-btn" class="btn-retry">
+          <i class="fas fa-redo"></i>
+          TRY AGAIN
+        </button>
+      </div>
 
-        <div id="repo-info" class="repo-info">
-          <div class="repo-stats">
-            <div class="stat-box">
-              <div class="stat-value" id="total-releases">0</div>
-              <div class="stat-label">Total Releases</div>
+      <!-- Results section -->
+      <section id="results" class="results hidden">
+        
+        <!-- Repository info card -->
+        <div class="repo-card">
+          <div class="repo-header">
+            <div class="repo-title-area">
+              <h3 class="repo-name" id="repo-name">Repository Name</h3>
+              <p class="repo-desc" id="repo-desc">Description</p>
             </div>
-            <div class="stat-box">
-              <div class="stat-value" id="latest-version">-</div>
-              <div class="stat-label">Latest Version</div>
-            </div>
-            <div class="stat-box">
-              <div class="stat-value" id="total-assets">0</div>
-              <div class="stat-label">Total Assets</div>
-            </div>
-            <div class="stat-box">
-              <div class="stat-value" id="release-frequency">-</div>
-              <div class="stat-label">Avg. Release Frequency</div>
-            </div>
-            <div class="stat-box">
-              <div class="stat-value" id="total-downloads">0</div>
-              <div class="stat-label">Total Downloads</div>
-            </div>
-            <div class="stat-box">
-              <div class="stat-value" id="avg-downloads">0</div>
-              <div class="stat-label">Avg. Downloads/Release</div>
-            </div>
+            
+            <button id="share-btn" class="btn-share">
+              <i class="fas fa-share-nodes"></i>
+              SHARE
+            </button>
           </div>
         </div>
 
-        <div class="releases-table-container">
-          <h3>All Releases</h3>
-          <div class="table-responsive">
+        <!-- Statistics grid -->
+        <div class="stats-grid">
+          <div class="stat-card stat-1">
+            <div class="stat-icon">
+              <i class="fas fa-box"></i>
+            </div>
+            <div class="stat-value" id="stat-releases">0</div>
+            <div class="stat-label">RELEASES</div>
+          </div>
+
+          <div class="stat-card stat-2">
+            <div class="stat-icon">
+              <i class="fas fa-tag"></i>
+            </div>
+            <div class="stat-value" id="stat-latest">-</div>
+            <div class="stat-label">LATEST</div>
+          </div>
+
+          <div class="stat-card stat-3">
+            <div class="stat-icon">
+              <i class="fas fa-folder"></i>
+            </div>
+            <div class="stat-value" id="stat-assets">0</div>
+            <div class="stat-label">ASSETS</div>
+          </div>
+
+          <div class="stat-card stat-4">
+            <div class="stat-icon">
+              <i class="fas fa-clock"></i>
+            </div>
+            <div class="stat-value" id="stat-frequency">-</div>
+            <div class="stat-label">FREQUENCY</div>
+          </div>
+
+          <div class="stat-card stat-5">
+            <div class="stat-icon">
+              <i class="fas fa-download"></i>
+            </div>
+            <div class="stat-value" id="stat-downloads">0</div>
+            <div class="stat-label">DOWNLOADS</div>
+          </div>
+
+          <div class="stat-card stat-6">
+            <div class="stat-icon">
+              <i class="fas fa-chart-bar"></i>
+            </div>
+            <div class="stat-value" id="stat-avg">0</div>
+            <div class="stat-label">AVG/RELEASE</div>
+          </div>
+        </div>
+
+        <!-- Releases table -->
+        <div class="releases-section">
+          <div class="releases-header">
+            <h3 class="releases-title">
+              <span class="title-accent">///</span> ALL RELEASES
+            </h3>
+            <div class="releases-count">
+              <span id="releases-count">0</span> TOTAL
+            </div>
+          </div>
+
+          <div class="table-container">
             <table class="releases-table">
               <thead>
                 <tr>
-                  <th>Version</th>
-                  <th>Release Date</th>
-                  <th>Assets</th>
-                  <th>Pre-release</th>
-                  <th>Downloads</th>
+                  <th>VERSION</th>
+                  <th>DATE</th>
+                  <th>STATUS</th>
+                  <th>ASSETS</th>
+                  <th>DOWNLOADS</th>
+                  <th></th>
                 </tr>
               </thead>
-              <tbody id="releases-table-body">
-                <!-- Releases will be inserted here by JavaScript -->
+              <tbody id="releases-body">
+                <!-- Releases inserted by JavaScript -->
               </tbody>
             </table>
           </div>
         </div>
-      </div>
+      </section>
+    </main>
 
-      <div id="loading-indicator" class="loading-container hidden">
-        <div class="loading-spinner"></div>
-        <p>Fetching repository data...</p>
-      </div>
+    <!-- Toast notification -->
+    <div id="toast" class="toast"></div>
 
-      <div id="error-container" class="error-container hidden">
-        <svg
-          class="error-icon"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <circle cx="12" cy="12" r="10"></circle>
-          <line x1="12" y1="8" x2="12" y2="12"></line>
-          <line x1="12" y1="16" x2="12.01" y2="16"></line>
-        </svg>
-        <p id="error-message">Error fetching repository data.</p>
-      </div>
-    </div>
-
+    <!-- Footer -->
     <footer class="footer">
-      Made with <span class="heart">♥</span> for the GitHub community
+      <p>
+        BUILT WITH
+        <span class="footer-heart">
+          <i class="fas fa-heart"></i>
+        </span>
+        FOR THE GITHUB COMMUNITY
+      </p>
     </footer>
 
-    <!-- JavaScript modules -->
     <script type="module" src="./js/script.js"></script>
   </body>
 </html>

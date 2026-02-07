@@ -8,29 +8,35 @@ import Utils from "./utils.js";
 const UI = {
   elements: {
     // Input elements
-    repoUrlInput: document.getElementById("repo-url"),
-    getStatsBtn: document.getElementById("get-stats"),
+    repoUrlInput: document.getElementById("repo-input"),
+    getStatsBtn: document.getElementById("analyze-btn"),
 
     // Status and container elements
-    repoStatus: document.getElementById("repo-status"),
-    resultsContainer: document.getElementById("results-container"),
-    loadingIndicator: document.getElementById("loading-indicator"),
-    errorContainer: document.getElementById("error-container"),
-    errorMessage: document.getElementById("error-message"),
+    repoStatus: document.getElementById("status-msg"),
+    resultsContainer: document.getElementById("results"),
+    loadingIndicator: document.getElementById("loading"),
+    errorContainer: document.getElementById("error"),
+    errorMessage: document.getElementById("error-text"),
 
     // Repository info elements
     repoName: document.getElementById("repo-name"),
-    repoDescription: document.getElementById("repo-description"),
-    totalReleases: document.getElementById("total-releases"),
-    latestVersion: document.getElementById("latest-version"),
-    totalAssets: document.getElementById("total-assets"),
-    releaseFrequency: document.getElementById("release-frequency"),
-    totalDownloads: document.getElementById("total-downloads"),
-    avgDownloads: document.getElementById("avg-downloads"),
-    releasesTableBody: document.getElementById("releases-table-body"),
+    repoDescription: document.getElementById("repo-desc"),
+    totalReleases: document.getElementById("stat-releases"),
+    latestVersion: document.getElementById("stat-latest"),
+    totalAssets: document.getElementById("stat-assets"),
+    releaseFrequency: document.getElementById("stat-frequency"),
+    totalDownloads: document.getElementById("stat-downloads"),
+    avgDownloads: document.getElementById("stat-avg"),
+    releasesTableBody: document.getElementById("releases-body"),
 
     // Share button element
-    shareButton: document.getElementById("share-button"),
+    shareButton: document.getElementById("share-btn"),
+
+    // Releases count element
+    releasesCount: document.getElementById("releases-count"),
+
+    // Retry button element
+    retryBtn: document.getElementById("retry-btn"),
   },
 
   /**
@@ -48,8 +54,11 @@ const UI = {
     // Add event listener for share button
     this.elements.shareButton.addEventListener(
       "click",
-      this.handleShareButtonClick.bind(this)
+      this.handleShareButtonClick.bind(this),
     );
+
+    // Add event listener for retry button
+    this.elements.retryBtn.addEventListener("click", fetchStatsCallback);
   },
 
   /**
@@ -61,9 +70,9 @@ const UI = {
   showStatus(element, message, type) {
     if (!element) return;
     element.textContent = message;
-    element.className = `status ${type}`;
+    element.className = `status-msg ${type}`;
     setTimeout(() => {
-      element.className = "status";
+      element.className = "status-msg";
     }, 3000);
   },
 
@@ -109,11 +118,11 @@ const UI = {
     navigator.clipboard
       .writeText(shareableUrl)
       .then(() => {
-        this.showToast("Link copied to clipboard!");
+        this.showToast("LINK COPIED TO CLIPBOARD!");
       })
       .catch((err) => {
         console.error("Could not copy text: ", err);
-        this.showToast("Failed to copy link.");
+        this.showToast("FAILED TO COPY LINK");
       });
   },
 
@@ -156,85 +165,65 @@ const UI = {
    */
   createAssetDetailsRow(release, colspan) {
     const detailsRow = document.createElement("tr");
-    detailsRow.className = "asset-details-row";
+    detailsRow.className = "asset-row";
+    detailsRow.dataset.assetRow = release.id;
 
     const detailsCell = document.createElement("td");
     detailsCell.colSpan = colspan;
-    detailsCell.className = "asset-details-cell";
+    detailsCell.className = "asset-details";
 
     // Create asset details container
     const detailsContainer = document.createElement("div");
-    detailsContainer.className = "asset-details-container";
+    detailsContainer.className = "asset-list";
 
     if (release.assets.length === 0) {
       // No assets message
-      const noAssetsMsg = document.createElement("p");
-      noAssetsMsg.className = "no-assets-message";
-      noAssetsMsg.textContent = "No assets available for this release";
+      const noAssetsMsg = document.createElement("div");
+      noAssetsMsg.className = "no-assets";
+      noAssetsMsg.textContent = "NO ASSETS AVAILABLE";
       detailsContainer.appendChild(noAssetsMsg);
     } else {
-      // Create asset details table
-      const assetsTable = document.createElement("table");
-      assetsTable.className = "assets-table";
-
-      // Table header
-      const tableHeader = document.createElement("thead");
-      const headerRow = document.createElement("tr");
-
-      ["#", "Asset Name", "Size", "Downloads", "Created At"].forEach(
-        (headerText) => {
-          const th = document.createElement("th");
-          th.textContent = headerText;
-          headerRow.appendChild(th);
-        }
-      );
-
-      tableHeader.appendChild(headerRow);
-      assetsTable.appendChild(tableHeader);
-
-      // Table body
-      const tableBody = document.createElement("tbody");
-
+      // Create asset items
       release.assets.forEach((asset, index) => {
-        const assetRow = document.createElement("tr");
+        const assetItem = document.createElement("div");
+        assetItem.className = "asset-item";
 
-        // Asset number column
-        const numberCell = document.createElement("td");
-        numberCell.textContent = (index + 1).toString();
-        numberCell.className = "asset-number";
-        assetRow.appendChild(numberCell);
+        // Asset number
+        const numDiv = document.createElement("div");
+        numDiv.className = "asset-num";
+        numDiv.textContent = index + 1;
+        assetItem.appendChild(numDiv);
 
         // Asset name with download link
-        const nameCell = document.createElement("td");
+        const nameDiv = document.createElement("div");
+        nameDiv.className = "asset-name";
         const nameLink = document.createElement("a");
         nameLink.href = asset.browser_download_url;
         nameLink.textContent = asset.name;
         nameLink.target = "_blank";
         nameLink.rel = "noopener noreferrer";
-        nameCell.appendChild(nameLink);
-        assetRow.appendChild(nameCell);
+        nameDiv.appendChild(nameLink);
+        assetItem.appendChild(nameDiv);
 
         // Asset size
-        const sizeCell = document.createElement("td");
-        sizeCell.textContent = Utils.formatFileSize(asset.size);
-        assetRow.appendChild(sizeCell);
+        const sizeDiv = document.createElement("div");
+        sizeDiv.textContent = Utils.formatFileSize(asset.size);
+        assetItem.appendChild(sizeDiv);
 
-        // Download count
-        const downloadCell = document.createElement("td");
-        downloadCell.textContent = asset.download_count.toLocaleString();
-        assetRow.appendChild(downloadCell);
+        // Download count with icon
+        const downloadDiv = document.createElement("div");
+        downloadDiv.innerHTML = `${Utils.formatNumber(
+          asset.download_count,
+        )} <i class="fas fa-download"></i>`;
+        assetItem.appendChild(downloadDiv);
 
         // Created at
-        const createdCell = document.createElement("td");
-        createdCell.textContent = Utils.formatDate(asset.created_at);
-        createdCell.className = "created-at";
-        assetRow.appendChild(createdCell);
+        const createdDiv = document.createElement("div");
+        createdDiv.textContent = Utils.formatDate(asset.created_at);
+        assetItem.appendChild(createdDiv);
 
-        tableBody.appendChild(assetRow);
+        detailsContainer.appendChild(assetItem);
       });
-
-      assetsTable.appendChild(tableBody);
-      detailsContainer.appendChild(assetsTable);
     }
 
     detailsCell.appendChild(detailsContainer);
@@ -252,28 +241,26 @@ const UI = {
     const row = event.currentTarget;
     const existingDetailsRow = row.nextElementSibling;
     const isDetailsRow =
-      existingDetailsRow &&
-      existingDetailsRow.classList.contains("asset-details-row");
+      existingDetailsRow && existingDetailsRow.classList.contains("asset-row");
 
     // Remove any existing open asset details
-    const allDetailRows = document.querySelectorAll(".asset-details-row");
+    const allDetailRows = document.querySelectorAll(".asset-row");
     allDetailRows.forEach((detailRow) => detailRow.remove());
 
     // Remove active class from all rows
     const allRows = document.querySelectorAll(
-      ".releases-table tbody tr:not(.asset-details-row)"
+      ".releases-table tbody tr:not(.asset-row)",
     );
-    allRows.forEach((r) => r.classList.remove("active-release-row"));
+    allRows.forEach((r) => r.classList.remove("active"));
 
     // If details were already open for this row, just close them (already removed above)
     // Otherwise, open details for this row
     if (
       !isDetailsRow ||
-      existingDetailsRow.dataset.releaseId !== release.id.toString()
+      existingDetailsRow.dataset.assetRow !== release.id.toString()
     ) {
-      row.classList.add("active-release-row");
-      const detailsRow = this.createAssetDetailsRow(release, 5); // 5 columns in the table
-      detailsRow.dataset.releaseId = release.id;
+      row.classList.add("active");
+      const detailsRow = this.createAssetDetailsRow(release, 6); // 6 columns in the table
       row.parentNode.insertBefore(detailsRow, row.nextSibling);
     }
   },
@@ -289,7 +276,7 @@ const UI = {
     if (releases.length === 0) {
       const row = document.createElement("tr");
       const cell = document.createElement("td");
-      cell.colSpan = 5;
+      cell.colSpan = 6;
       cell.textContent = "No releases found";
       cell.style.textAlign = "center";
       row.appendChild(cell);
@@ -299,21 +286,21 @@ const UI = {
 
     // Sort releases by published date (newest first)
     const sortedReleases = [...releases].sort(
-      (a, b) => new Date(b.published_at) - new Date(a.published_at)
+      (a, b) => new Date(b.published_at) - new Date(a.published_at),
     );
 
     sortedReleases.forEach((release) => {
       const row = document.createElement("tr");
-      row.className = "release-row";
       row.dataset.releaseId = release.id;
 
       // Make the row clickable
       row.addEventListener("click", (event) =>
-        this.handleReleaseRowClick(event, release)
+        this.handleReleaseRowClick(event, release),
       );
 
       // Version column
       const versionCell = document.createElement("td");
+      versionCell.className = "release-version";
       versionCell.textContent = release.tag_name;
       row.appendChild(versionCell);
 
@@ -322,32 +309,44 @@ const UI = {
       dateCell.textContent = Utils.formatDate(release.published_at);
       row.appendChild(dateCell);
 
+      // Status column
+      const statusCell = document.createElement("td");
+      const releaseTag = document.createElement("span");
+      if (release.prerelease) {
+        releaseTag.className = "release-tag tag-pre";
+        releaseTag.textContent = "PRE";
+      } else {
+        releaseTag.className = "release-tag tag-stable";
+        releaseTag.textContent = "STABLE";
+      }
+      statusCell.appendChild(releaseTag);
+      row.appendChild(statusCell);
+
       // Assets column
       const assetsCell = document.createElement("td");
       assetsCell.textContent = release.assets.length;
       row.appendChild(assetsCell);
 
-      // Pre-release column
-      const preReleaseCell = document.createElement("td");
-      const releaseTag = document.createElement("span");
-      if (release.prerelease) {
-        releaseTag.className = "pre-release-tag";
-        releaseTag.textContent = "Pre-release";
-      } else {
-        releaseTag.className = "stable-tag";
-        releaseTag.textContent = "Stable";
-      }
-      preReleaseCell.appendChild(releaseTag);
-      row.appendChild(preReleaseCell);
-
       // Downloads column
       const downloadsCell = document.createElement("td");
       const totalDownloads = release.assets.reduce(
         (sum, asset) => sum + asset.download_count,
-        0
+        0,
       );
-      downloadsCell.textContent = totalDownloads.toLocaleString();
+      downloadsCell.textContent = Utils.formatNumber(totalDownloads);
       row.appendChild(downloadsCell);
+
+      // Expand button column
+      const expandCell = document.createElement("td");
+      const expandBtn = document.createElement("button");
+      expandBtn.className = "btn-expand";
+      expandBtn.textContent = "+";
+      expandBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        this.handleReleaseRowClick({ currentTarget: row }, release);
+      });
+      expandCell.appendChild(expandBtn);
+      row.appendChild(expandCell);
 
       tableBody.appendChild(row);
     });
@@ -364,16 +363,29 @@ const UI = {
     this.elements.repoName.textContent = repoInfo.name;
     this.elements.repoDescription.textContent =
       repoInfo.description || "No description available";
-    this.elements.totalReleases.textContent = releases.length;
+    this.elements.totalReleases.textContent = Utils.formatNumber(
+      releases.length,
+    );
     this.elements.latestVersion.textContent =
       releases.length > 0 ? releases[0].tag_name : "N/A";
-    this.elements.totalAssets.textContent = Utils.countTotalAssets(releases);
+    this.elements.totalAssets.textContent = Utils.formatNumber(
+      Utils.countTotalAssets(releases),
+    );
     this.elements.releaseFrequency.textContent =
       Utils.calculateReleaseFrequency(releases);
-    this.elements.totalDownloads.textContent =
-      Utils.calculateTotalDownloads(releases).toLocaleString();
-    this.elements.avgDownloads.textContent =
-      Utils.calculateAverageDownloads(releases);
+    this.elements.totalDownloads.textContent = Utils.formatNumber(
+      Utils.calculateTotalDownloads(releases),
+    );
+    this.elements.avgDownloads.textContent = Utils.formatNumber(
+      Math.round(
+        releases.length > 0
+          ? Utils.calculateTotalDownloads(releases) / releases.length
+          : 0,
+      ),
+    );
+
+    // Update releases count
+    this.elements.releasesCount.textContent = releases.length;
 
     // Render table
     this.renderReleasesTable(releases);
