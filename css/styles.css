@@ -31,6 +31,7 @@ body {
   line-height: 1.6;
   overflow-x: hidden;
   position: relative;
+  cursor: default;
 }
 
 /* Background shapes */
@@ -138,6 +139,7 @@ body {
   letter-spacing: 1px;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 4px 4px 0 var(--black);
+  cursor: pointer;
 }
 
 .header-link:hover {
@@ -221,6 +223,7 @@ body {
   color: var(--black);
   transition: all 0.2s ease;
   box-shadow: 4px 4px 0 var(--black);
+  cursor: text;
 }
 
 .repo-input:focus {
@@ -684,6 +687,7 @@ body {
 /* Asset details */
 .asset-row {
   background: var(--bg) !important;
+  cursor: default;
 }
 
 .asset-row:hover {
@@ -728,6 +732,7 @@ body {
   font-weight: 900;
   border-bottom: 2px solid transparent;
   transition: border-color 0.2s ease;
+  cursor: pointer;
 }
 
 .asset-name a:hover {
@@ -808,6 +813,30 @@ body {
 /* Utilities */
 .hidden {
   display: none !important;
+}
+
+/* Cursor management */
+* {
+  cursor: default;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="search"],
+textarea {
+  cursor: text !important;
+}
+
+a,
+button,
+[role="button"] {
+  cursor: pointer !important;
+}
+
+button:disabled,
+input:disabled {
+  cursor: not-allowed !important;
 }
 
 /* Responsive - Tablet */
